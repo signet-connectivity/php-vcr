@@ -28,4 +28,29 @@ class Assertion extends BaseAssertion
 
         return true;
     }
+
+    /**
+     * Assert that value is a curl resource.
+     *
+     * @param mixed $value
+     * @param string|callable|null $message
+     * @param string|null $propertyPath
+     *
+     * @psalm-assert resource $string
+     *
+     * @return bool
+     */
+    public static function isCurlResource($value, $message = null, string $propertyPath = null): bool
+    {
+        if ($value === false) {
+            $message = \sprintf(
+                static::generateMessage($message ?: 'Value "%s" is not a resource.'),
+                static::stringify($value)
+            );
+
+            throw static::createException($value, $message, static::INVALID_RESOURCE, $propertyPath);
+        }
+
+        return true;
+    }
 }
